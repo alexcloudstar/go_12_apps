@@ -72,7 +72,7 @@ func main() {
 			}
 		case 2:
 			fmt.Println("Here are all the tasks:")
-            fmt.Println(string(content))
+			fmt.Println(string(content))
 		case 3:
 			fmt.Println("Please enter the task number you want to mark as completed:")
 		case 4:
