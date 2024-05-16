@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 )
@@ -11,25 +12,39 @@ type Task struct {
 	Completed   bool   `json:"completed"`
 }
 
+const file = "tasks.json"
+
 func main() {
 	fmt.Println("Hi! Please choose an option:")
 
 	printInitMsg()
-	os.Create("tasks.json")
+	_, err := os.Create(file)
+
+	if err != nil {
+		fmt.Println("Could not create the tasks file")
+		return
+	}
 
 	for {
 		var option int
 		fmt.Scanln(&option)
 
-		if option < 1 || option > 5 {
-			fmt.Println("Invalid option. Please choose a valid option.")
-			printInitMsg()
-			continue
-		}
-
 		switch option {
 		case 1:
 			fmt.Println("Please enter the task description:")
+			var description string
+			fmt.Scanln(&description)
+
+			task := Task{
+				ID:          0,
+				Description: description,
+				Completed:   false,
+			}
+
+			json, _ := json.Marshal(task)
+
+			os.WriteFile(file, json, 0644)
+
 		case 2:
 			fmt.Println("Here are all the tasks:")
 		case 3:
