@@ -13,20 +13,20 @@ type Task struct {
 }
 
 const file_name = "tasks.json"
-const osPerm = os.O_APPEND|os.O_CREATE|os.O_WRONLY
+const osPerm = os.O_APPEND | os.O_CREATE | os.O_WRONLY
 const file_mode = 0644
 
 func main() {
 	fmt.Println("Hi! Please choose an option:")
-    var tasks []Task
+	var tasks []Task
 
 	printInitMsg()
 	file, err := os.OpenFile(file_name, osPerm, file_mode)
 
-    if err != nil {
-        fmt.Println("Could not create the tasks file")
-        return
-    }
+	if err != nil {
+		fmt.Println("Could not create the tasks file")
+		return
+	}
 
 	for {
 		var option int
@@ -44,7 +44,7 @@ func main() {
 				Completed:   false,
 			}
 
-            tasks = append(tasks, task)
+			tasks = append(tasks, task)
 
 			json, _ := json.Marshal(tasks)
 
@@ -60,12 +60,12 @@ func main() {
 			fmt.Println("Please enter the task number you want to mark as completed:")
 		case 4:
 			fmt.Println("Please enter the task number you want to delete:")
-        /*
-            FIX: this
-            default:
-            fmt.Println("Goodbye!")
-            return
-        */
+			/*
+			   FIX: this
+			   default:
+			   fmt.Println("Goodbye!")
+			   return
+			*/
 		}
 	}
 }
