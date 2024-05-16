@@ -13,17 +13,20 @@ type Task struct {
 }
 
 const file_name = "tasks.json"
+const osPerm = os.O_APPEND|os.O_CREATE|os.O_WRONLY
+const file_mode = 0644
 
 func main() {
 	fmt.Println("Hi! Please choose an option:")
+    var tasks []Task
 
 	printInitMsg()
-	file, err := os.OpenFile(file_name, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 644)
+	file, err := os.OpenFile(file_name, osPerm, file_mode)
 
-	if err != nil {
-		fmt.Println("Could not create the tasks file")
-		return
-	}
+    if err != nil {
+        fmt.Println("Could not create the tasks file")
+        return
+    }
 
 	for {
 		var option int
@@ -36,12 +39,14 @@ func main() {
 			fmt.Scanln(&description)
 
 			task := Task{
-				ID:          0,
+				ID:          len(tasks),
 				Description: description,
 				Completed:   false,
 			}
 
-			json, _ := json.Marshal(task)
+            tasks = append(tasks, task)
+
+			json, _ := json.Marshal(tasks)
 
 			_, err := file.Write(json)
 
@@ -49,16 +54,18 @@ func main() {
 				fmt.Println("Could not write to the tasks file")
 				fmt.Println(err)
 			}
-
 		case 2:
 			fmt.Println("Here are all the tasks:")
 		case 3:
 			fmt.Println("Please enter the task number you want to mark as completed:")
 		case 4:
 			fmt.Println("Please enter the task number you want to delete:")
-		default:
-			fmt.Println("Goodbye!")
-			return
+        /*
+            FIX: this
+            default:
+            fmt.Println("Goodbye!")
+            return
+        */
 		}
 	}
 }
