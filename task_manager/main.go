@@ -13,7 +13,7 @@ type Task struct {
 }
 
 const file_name = "tasks.json"
-const osPerm = os.O_APPEND | os.O_CREATE | os.O_WRONLY
+const osPerm = os.O_CREATE | os.O_WRONLY
 const file_mode = 0644
 
 func main() {
@@ -26,6 +26,22 @@ func main() {
 	if err != nil {
 		fmt.Println("Could not create the tasks file")
 		return
+	}
+
+	content, err := os.ReadFile(file_name)
+
+	if err != nil {
+		fmt.Println("Could not read the tasks file")
+		return
+	}
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if len(content) > 0 {
+		err = json.Unmarshal(content, &tasks)
 	}
 
 	for {
@@ -46,7 +62,7 @@ func main() {
 
 			tasks = append(tasks, task)
 
-			json, _ := json.Marshal(tasks)
+			json, _ := json.Marshal(&tasks)
 
 			_, err := file.Write(json)
 
