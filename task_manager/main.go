@@ -12,13 +12,13 @@ type Task struct {
 	Completed   bool   `json:"completed"`
 }
 
-const file = "tasks.json"
+const file_name = "tasks.json"
 
 func main() {
 	fmt.Println("Hi! Please choose an option:")
 
 	printInitMsg()
-	_, err := os.Create(file)
+	file, err := os.OpenFile(file_name, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 644)
 
 	if err != nil {
 		fmt.Println("Could not create the tasks file")
@@ -43,7 +43,12 @@ func main() {
 
 			json, _ := json.Marshal(task)
 
-			os.WriteFile(file, json, 0644)
+			_, err := file.Write(json)
+
+			if err != nil {
+				fmt.Println("Could not write to the tasks file")
+				fmt.Println(err)
+			}
 
 		case 2:
 			fmt.Println("Here are all the tasks:")
