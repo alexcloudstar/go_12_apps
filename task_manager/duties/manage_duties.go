@@ -11,6 +11,12 @@ type Duty struct {
 	Completed   bool   `json:"completed"`
 }
 
+func Init() []Duty {
+    var tasks []Duty 
+
+    return tasks
+}
+
 func New(tasks []Duty) []Duty {
 	fmt.Println("Please enter the task description:")
 	var description string

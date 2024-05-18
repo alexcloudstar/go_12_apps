@@ -15,7 +15,7 @@ const file_mode = 0644
 
 func main() {
 	fmt.Println("Hi! Please choose an option:")
-	var tasks []duties.Duty 
+    tasks := duties.Init()
 
     utils.ShowOptions()
 	file, err := os.OpenFile(file_name, osPerm, file_mode)
@@ -93,8 +93,12 @@ func main() {
                 fmt.Println(err)
             }
 		case 5:
+            fmt.Println("Goodbye!")
 			return
 		}
+
+        fmt.Println("\n")
+        utils.ShowOptions()
 	}
 }
 

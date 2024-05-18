@@ -1,0 +1,4 @@
+package fileops
+
+func S() {
+}
