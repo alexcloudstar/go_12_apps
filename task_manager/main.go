@@ -25,9 +25,9 @@ func main() {
 
 		switch option {
 		case 1:
-			tasks := duties.New(tasks)
+			tasks := duties.New(&tasks)
 
-			err := fileops.Write(&tasks)
+			err := fileops.Write(tasks)
 
 			if err != nil {
 				fmt.Println("Could not write to the tasks file")
@@ -41,9 +41,9 @@ func main() {
 			var task_id string
 			fmt.Scanln(&task_id)
 
-			tasks := duties.ToggleCompleted(tasks, task_id)
+            tasks := duties.ToggleCompleted(&tasks, task_id)
 
-			err := fileops.Write(&tasks)
+			err := fileops.Write(tasks)
 
 			if err != nil {
 				fmt.Println("could not write to the tasks file")
@@ -55,9 +55,9 @@ func main() {
 			var task_id string
 			fmt.Scanln(&task_id)
 
-			tasks := duties.DeleteDuty(tasks, task_id)
+			tasks := duties.DeleteDuty(&tasks, task_id)
 
-			err := fileops.Write(&tasks)
+			err := fileops.Write(tasks)
 
 			if err != nil {
 				fmt.Println("Could not write to the tasks file")
@@ -67,8 +67,5 @@ func main() {
 			fmt.Println("Goodbye!")
 			return
 		}
-
-		fmt.Println("\n")
-		utils.ShowOptions()
 	}
 }

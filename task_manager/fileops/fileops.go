@@ -3,7 +3,6 @@ package fileops
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"os"
 
 	"github.com/alexcloudstar/go_12_apps/task_manager/duties"
@@ -19,11 +18,6 @@ func Init(tasks *[]duties.Duty) []byte {
 		file, _ := os.Create(File_name)
 
 		file.Sync()
-	}
-
-	if err != nil {
-		fmt.Println("Could not read the tasks file")
-		return nil
 	}
 
 	if len(content) > 0 {
