@@ -15,11 +15,11 @@ const File_mode = 0644
 func Init(tasks *[]duties.Duty) []byte {
 	content, err := os.ReadFile(File_name)
 
-    if errors.Is(err, os.ErrNotExist) {
-        file, _ := os.Create(File_name)
+	if errors.Is(err, os.ErrNotExist) {
+		file, _ := os.Create(File_name)
 
-        file.Sync()
-    }
+		file.Sync()
+	}
 
 	if err != nil {
 		fmt.Println("Could not read the tasks file")
@@ -30,14 +30,13 @@ func Init(tasks *[]duties.Duty) []byte {
 		err = json.Unmarshal(content, &tasks)
 	}
 
-    return content 
+	return content
 }
 
 func Write(tasks *[]duties.Duty) error {
-    json, _ := json.Marshal(&tasks)
+	json, _ := json.Marshal(&tasks)
 
+	err := os.WriteFile(File_name, json, File_mode)
 
-    err := os.WriteFile(File_name, json, File_mode)
-
-    return err
+	return err
 }

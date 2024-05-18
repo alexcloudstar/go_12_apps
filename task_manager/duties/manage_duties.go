@@ -12,9 +12,9 @@ type Duty struct {
 }
 
 func Init() []Duty {
-    var tasks []Duty 
+	var tasks []Duty
 
-    return tasks
+	return tasks
 }
 
 func New(tasks []Duty) []Duty {
@@ -30,33 +30,33 @@ func New(tasks []Duty) []Duty {
 
 	tasks = append(tasks, task)
 
-    return tasks
+	return tasks
 }
 
-func ToggleCompleted (tasks []Duty, task_id string) []Duty {
-    for idx, el := range tasks {
-        task_id := parseId(task_id)
-        if el.ID == int(task_id) {
-            tasks[idx].Completed = true
-        }
-    }
+func ToggleCompleted(tasks []Duty, task_id string) []Duty {
+	for idx, el := range tasks {
+		task_id := parseId(task_id)
+		if el.ID == int(task_id) {
+			tasks[idx].Completed = true
+		}
+	}
 
-    return tasks
+	return tasks
 }
 
 func DeleteDuty(tasks []Duty, task_id string) []Duty {
-    for idx, el := range tasks {
-        task_id := parseId(task_id)
-        if el.ID == int(task_id) {
-            tasks = append(tasks[:idx], tasks[idx+1:]...)
-        }
-    }
+	for idx, el := range tasks {
+		task_id := parseId(task_id)
+		if el.ID == int(task_id) {
+			tasks = append(tasks[:idx], tasks[idx+1:]...)
+		}
+	}
 
-    return tasks
+	return tasks
 }
 
 func parseId(id string) int64 {
-    task_id, _ := strconv.ParseInt(id, 10, 64)
+	task_id, _ := strconv.ParseInt(id, 10, 64)
 
-    return task_id
+	return task_id
 }
