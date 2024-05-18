@@ -4,14 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"strconv"
-)
 
-type Task struct {
-	ID          int    `json:"id"`
-	Description string `json:"description"`
-	Completed   bool   `json:"completed"`
-}
+	"github.com/alexcloudstar/go_12_apps/task_manager/duties"
+	"github.com/alexcloudstar/go_12_apps/task_manager/utils"
+)
 
 const file_name = "tasks.json"
 const osPerm = os.O_CREATE | os.O_WRONLY
@@ -19,9 +15,9 @@ const file_mode = 0644
 
 func main() {
 	fmt.Println("Hi! Please choose an option:")
-	var tasks []Task
+	var tasks []duties.Duty 
 
-	printInitMsg()
+    utils.ShowOptions()
 	file, err := os.OpenFile(file_name, osPerm, file_mode)
 
 	defer file.Close()
@@ -53,17 +49,7 @@ func main() {
 
 		switch option {
 		case 1:
-			fmt.Println("Please enter the task description:")
-			var description string
-			fmt.Scanln(&description)
-
-			task := Task{
-				ID:          len(tasks),
-				Description: description,
-				Completed:   false,
-			}
-
-			tasks = append(tasks, task)
+            tasks := duties.New(tasks)
 
 			json, _ := json.Marshal(&tasks)
 
@@ -81,51 +67,34 @@ func main() {
 			var task_id string
 			fmt.Scanln(&task_id)
 
-			for idx, el := range tasks {
-				task_id_int, _ := strconv.ParseInt(task_id, 10, 64)
-				if el.ID == int(task_id_int) {
-					tasks[idx].Completed = true
-					json, _ := json.Marshal(&tasks)
+             tasks := duties.ToggleCompleted(tasks, task_id)
 
-					err := os.WriteFile(file_name, json, file_mode)
+            json, _ := json.Marshal(&tasks)
 
-					if err != nil {
-						fmt.Println("Could not write to the tasks file")
-						fmt.Println(err)
-					}
+            err := os.WriteFile(file_name, json, file_mode)
 
-				}
-			}
+            if err != nil {
+                fmt.Println("could not write to the tasks file")
+                fmt.Println(err)
+            }
+			
 		case 4:
 			fmt.Println("Please enter the task number you want to delete:")
 			var task_id string
 			fmt.Scanln(&task_id)
 
-			for idx, el := range tasks {
-				task_id_int, _ := strconv.ParseInt(task_id, 10, 64)
-				if el.ID == int(task_id_int) {
-					tasks = append(tasks[:idx], tasks[idx+1:]...)
-					json, _ := json.Marshal(&tasks)
+            tasks := duties.DeleteDuty(tasks, task_id)
+            json, _ := json.Marshal(&tasks)
 
-					err := os.WriteFile(file_name, json, file_mode)
+            err := os.WriteFile(file_name, json, file_mode)
 
-					if err != nil {
-						fmt.Println("Could not write to the tasks file")
-						fmt.Println(err)
-					}
-
-				}
-			}
+            if err != nil {
+                fmt.Println("Could not write to the tasks file")
+                fmt.Println(err)
+            }
 		case 5:
 			return
 		}
 	}
 }
 
-func printInitMsg() {
-	fmt.Println("1. Add a new task")
-	fmt.Println("2. List all tasks")
-	fmt.Println("3. Mark a task as completed")
-	fmt.Println("4. Delete a task")
-	fmt.Println("5. Exit")
-}
