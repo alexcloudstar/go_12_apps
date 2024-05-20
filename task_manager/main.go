@@ -15,11 +15,10 @@ func main() {
 	fmt.Println("Hi! Please choose an option:")
 	tasks := duties.Init()
 
-	utils.ShowOptions()
-
-	content := fileops.Init(&tasks)
-
 	for {
+        utils.ShowOptions()
+        content := fileops.Init(&tasks)
+
 		var option int
 		fmt.Scanln(&option)
 
@@ -33,9 +32,11 @@ func main() {
 				fmt.Println("Could not write to the tasks file")
 			}
 
+            utils.PrintSeparator()
 		case 2:
 			fmt.Println("Here are all the tasks:")
 			fmt.Println(string(content))
+            utils.PrintSeparator()
 		case 3:
 			fmt.Println("Please enter the task number you want to mark as completed:")
 			var task_id string
@@ -50,6 +51,7 @@ func main() {
 				fmt.Println(err)
 			}
 
+            utils.PrintSeparator()
 		case 4:
 			fmt.Println("Please enter the task number you want to delete:")
 			var task_id string
@@ -63,6 +65,7 @@ func main() {
 				fmt.Println("Could not write to the tasks file")
 				fmt.Println(err)
 			}
+            utils.PrintSeparator()
 		case 5:
 			fmt.Println("Goodbye!")
 			return
