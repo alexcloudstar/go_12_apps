@@ -9,3 +9,7 @@ func ShowOptions() {
 	fmt.Println("4. Delete a task")
 	fmt.Println("5. Exit")
 }
+
+func PrintSeparator() {
+    fmt.Println("----------------------------------------------------")
+}
