@@ -6,22 +6,21 @@ import (
 )
 
 const charset = "abcdefghijklmnopqrstuvwxyz" +
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 var seededRand *rand.Rand = rand.New(
-    rand.NewSource(time.Now().UnixNano()),
-    )
-
+	rand.NewSource(time.Now().UnixNano()),
+)
 
 func Hash(length int, charset string) string {
-    b := make([]byte, length)
-    for i := range b {
-        b[i] = charset[seededRand.Intn(len(charset))]
-    }
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = charset[seededRand.Intn(len(charset))]
+	}
 
-    return string(b)
+	return string(b)
 }
 
 func GetHash(length int) string {
-    return Hash(length, charset)
+	return Hash(length, charset)
 }

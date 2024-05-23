@@ -9,40 +9,40 @@ import (
 )
 
 type Url struct {
-    Short string `json:"short"`
-    Long string `json:"long"`
+	Short string `json:"short"`
+	Long  string `json:"long"`
 }
 
 type Body struct {
-    Url string `json:"url"`
+	Url string `json:"url"`
 }
 
 var urls []Url
 
 func RedirectUrl(ctx *gin.Context) {
-    ctx.JSON(http.StatusOK, gin.H{
-        "urls": urls,
-    })
+	ctx.JSON(http.StatusOK, gin.H{
+		"urls": urls,
+	})
 }
 
 func ShortUrl(ctx *gin.Context) {
-    var body Body
+	var body Body
 
-    err := ctx.BindJSON(&body)
+	err := ctx.BindJSON(&body)
 
-    if err != nil {
-        fmt.Println(err.Error())
-        return
-    }
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
 
-    hashedUrl := utils.GetHash(5)
+	hashedUrl := utils.GetHash(5)
 
-    urls = append(urls, Url{
-        Short: hashedUrl,
-        Long: body.Url,
-    })
+	urls = append(urls, Url{
+		Short: hashedUrl,
+		Long:  body.Url,
+	})
 
-    ctx.JSON(http.StatusOK, gin.H{
-        "url": hashedUrl,
-    })
+	ctx.JSON(http.StatusOK, gin.H{
+		"url": hashedUrl,
+	})
 }
