@@ -7,8 +7,8 @@ import (
 )
 
 func RegisterRoutes(server *gin.Engine) {
-    server.GET("/:shortUrl", RedirectUrl)
-    server.POST("/:shortUrl", ShortUrl)
+    server.GET("/:url", RedirectUrl)
+    server.POST("/", ShortUrl)
 
     server.GET("/ping", func(ctx *gin.Context) {
         ctx.JSON(http.StatusOK, gin.H{
